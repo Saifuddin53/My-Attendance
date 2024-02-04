@@ -23,7 +23,7 @@ fun InitialActivity() {
             .fillMaxSize()
     ) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { },
             modifier = Modifier.padding(36.dp)
             ) {
             Text(text = "Add Subjects",
