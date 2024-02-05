@@ -1,6 +1,7 @@
 package com.littlelemon.myattendance
 
 import android.annotation.SuppressLint
+import android.net.http.UrlRequest.Status
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,12 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -40,44 +38,24 @@ import androidx.compose.ui.unit.sp
 
 @Preview(showBackground = true)
 @Composable
-fun EditTimeTable() {
-    val day1: String = "Monday"
-    TopAppBar(day = day1)
+fun Status() {
+    TopAppBar(title = "Status")
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
     ) {
         Spacer(modifier = Modifier.height(90.dp))
 
-        LectureItem(1, "COA")
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Button(
-            onClick = { /*TODO*/ },
-            modifier = Modifier.padding(48.dp)
-        ) {
-            Row {
-                Icon(imageVector = Icons.Default.Add
-                    , contentDescription = "Add button"
-                    , Modifier.size(30.dp)
-                )
-                Spacer(modifier = Modifier.padding(4.dp))
-                Text(
-                    text = " Add Lecture",
-                    fontSize = 30.sp
-                )
-            }
+        SubjectStatus(subjectName = "COA")
         }
-    }
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar(day: String) {
+private fun TopAppBar(title: String) {
 
     Scaffold(
         topBar = {
@@ -88,7 +66,7 @@ private fun TopAppBar(day: String) {
                 ),
                 title = {
                     Text(
-                        text = day,
+                        text = title,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -96,17 +74,8 @@ private fun TopAppBar(day: String) {
                 navigationIcon = {
                     IconButton(onClick = { /* do something */ }) {
                         Icon(
-                            imageVector = Icons.Filled.KeyboardArrowLeft,
-                            contentDescription = "Localized description",
-                            Modifier.size(48.dp)
-                        )
-                    }
-                } ,actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.KeyboardArrowRight,
-                            contentDescription = "Localized description",
-                            Modifier.size(48.dp)
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Localized description"
                         )
                     }
                 }
@@ -116,13 +85,13 @@ private fun TopAppBar(day: String) {
 }
 
 @Composable
-fun LectureItem(lectureNumber: Int, lectureName: String) {
+fun SubjectStatus(subjectName: String) {
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         ),
         modifier = Modifier
-            .height(100.dp)
+            .height(120.dp)
             .padding(16.dp)
             .fillMaxWidth()
             .fillMaxHeight()
@@ -130,14 +99,27 @@ fun LectureItem(lectureNumber: Int, lectureName: String) {
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxSize()
         ) {
             Text(
-                text = "$lectureNumber.   $lectureName",
+                text = subjectName,
                 modifier = Modifier
                     .padding(16.dp),
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Start,
+                fontSize = 24.sp
+            )
+            Text(
+                text = "15/20",
+                modifier = Modifier
+                    .padding(16.dp),
+                textAlign = TextAlign.Start,
+                fontSize = 24.sp
+            )
+            Text(
+                text = "76%",
+                modifier = Modifier
+                    .padding(16.dp),
+                textAlign = TextAlign.End,
                 fontSize = 24.sp
             )
         }
