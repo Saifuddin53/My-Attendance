@@ -42,7 +42,7 @@ fun SubjectsActivity() {
             .fillMaxSize()
         ) {
 //            SubjectList()
-        Spacer(modifier = Modifier.weight(0.5f))
+        Spacer(modifier = Modifier.weight(1f))
         Button(onClick = { /*TODO*/ },
             modifier = Modifier.padding(48.dp)) {
             Row {
@@ -63,7 +63,7 @@ fun SubjectsActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar() {
+private fun TopAppBar() {
 
     Scaffold(
         topBar = {
