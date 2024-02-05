@@ -15,10 +15,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -37,35 +37,43 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 @Preview(showBackground = true)
 @Composable
-fun TimeTableActivity() {
-
-    val date: String = getCurrentDate()
-    val day: String = getCurrentDay()
-
-    TopAppBar(date, day)
-
+fun EditTimeTable() {
+    val day1: String = "Monday"
+    TopAppBar(day = day1)
     Column(
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
     ) {
         Spacer(modifier = Modifier.height(90.dp))
-        SubjectItem("COA")
-        SubjectItem("Physics")
+
+            LectureItem(1, "COA")
+        Spacer(modifier = Modifier.weight(1f))
+        Button(onClick = { /*TODO*/ },
+            modifier = Modifier.padding(48.dp)) {
+            Row {
+                Icon(imageVector = Icons.Default.Add
+                    , contentDescription = "Add button"
+                    , Modifier.size(30.dp)
+                )
+                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = " Add Lecture",
+                    fontSize = 30.sp
+                )
+            }
+        }
     }
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar(date: String, day: String) {
+private fun TopAppBar(day: String) {
 
     Scaffold(
         topBar = {
@@ -76,7 +84,7 @@ private fun TopAppBar(date: String, day: String) {
                 ),
                 title = {
                     Text(
-                        "$day , $date",
+                        text = day,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -103,9 +111,8 @@ private fun TopAppBar(date: String, day: String) {
     ) {}
 }
 
-
 @Composable
-fun SubjectItem(subjectName: String) {
+fun LectureItem(lectureNumber: Int, lectureName: String) {
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -123,47 +130,12 @@ fun SubjectItem(subjectName: String) {
             modifier = Modifier.fillMaxSize()
         ) {
             Text(
-                text = subjectName,
+                text = "$lectureNumber.   $lectureName",
                 modifier = Modifier
                     .padding(16.dp),
                 textAlign = TextAlign.Center,
                 fontSize = 24.sp
             )
-
-            Spacer(modifier = Modifier.width(70.dp))
-
-            IconButton(onClick = { /*TODO*/ },
-                modifier = Modifier
-                    .padding(16.dp)
-                    .size(27.dp)) {
-                Icon(imageVector = Icons.Default.Close,
-                    contentDescription = "Absent",
-                    )
-            }
-
-            IconButton(onClick = { /*TODO*/ },
-                modifier = Modifier
-                    .padding(16.dp)
-                    .size(30.dp)) {
-                Icon(imageVector = Icons.Default.Add,
-                    contentDescription = "Update",
-                    )
-            }
-
         }
     }
-}
-
-@SuppressLint("SimpleDateFormat")
-private fun getCurrentDate(): String {
-    val calendar = Calendar.getInstance()
-    val dateFormat = SimpleDateFormat("dd-MM-yyyy") // You can customize the date format here
-    return dateFormat.format(calendar.time)
-}
-
-@SuppressLint("SimpleDateFormat")
-private fun getCurrentDay(): String {
-    val calendar = Calendar.getInstance()
-    val dayFormat = SimpleDateFormat("EEEE") // Day of the week
-    return dayFormat.format(calendar.time)
 }
