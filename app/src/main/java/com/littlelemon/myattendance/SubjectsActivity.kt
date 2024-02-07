@@ -80,6 +80,7 @@ fun SubjectsActivity() {
 private fun TopAppBar(title: String) {
 
     Scaffold(
+
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(

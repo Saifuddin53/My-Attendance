@@ -7,23 +7,34 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.sourceInformation
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
-@Preview(showBackground = true)
+
 @Composable
-fun InitialActivity() {
+fun InitialActivity(
+    navController: NavController,
+    onButtonClicked: (String) -> Unit = {Route -> navController.navigate(Route)}
+) {
+
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
     ) {
+
         Button(
-            onClick = { },
+            onClick = { onButtonClicked("AddSubjects") },
             modifier = Modifier.padding(36.dp)
             ) {
             Text(text = "Add Subjects",
@@ -31,7 +42,7 @@ fun InitialActivity() {
                 modifier = Modifier.padding(12.dp))
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { onButtonClicked("EditTimeTable") },
             modifier = Modifier.padding(36.dp)
         ) {
             Text(text = "Edit Timetable ",
@@ -39,7 +50,7 @@ fun InitialActivity() {
                 modifier = Modifier.padding(12.dp))
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { onButtonClicked("TimeTable") },
             modifier = Modifier.padding(36.dp)
         ) {
             Text(text = "Timetable",
@@ -47,7 +58,7 @@ fun InitialActivity() {
                 modifier = Modifier.padding(12.dp))
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { onButtonClicked("Status") },
             modifier = Modifier.padding(36.dp)
         ) {
             Text(text = "Status",
@@ -56,3 +67,15 @@ fun InitialActivity() {
         }
     }
 }
+
+
+@Preview
+@Composable
+fun InitialActivityPreview() {
+    InitialActivity(
+        navController = rememberNavController(),
+        onButtonClicked = {name -> println(name) }
+    )
+}
+
+
