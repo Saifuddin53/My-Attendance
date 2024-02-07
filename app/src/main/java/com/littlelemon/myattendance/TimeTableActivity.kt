@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -30,6 +29,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -40,14 +42,17 @@ import androidx.compose.ui.unit.sp
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
+@SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true)
 @Composable
 fun TimeTableActivity() {
 
-    val date: String = getCurrentDate()
-    val day: String = getCurrentDay()
+    val calendar = Calendar.getInstance()
 
-    TopAppBar(date, day)
+    val date = remember { mutableStateOf(getCurrentDate(calendar)) }
+    val day = remember { mutableStateOf(getCurrentDay(calendar)) }
+
+    TopAppBar(date, day, calendar)
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -65,8 +70,10 @@ fun TimeTableActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar(date: String, day: String) {
-
+private fun TopAppBar(date: MutableState<String>,
+                      day: MutableState<String>,
+                      calendar: Calendar,
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -76,13 +83,13 @@ private fun TopAppBar(date: String, day: String) {
                 ),
                 title = {
                     Text(
-                        "$day , $date",
+                        "${day.value} , ${date.value}",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
+                    IconButton(onClick = { getPreviousDateAndDay(date, day, calendar) }) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowLeft,
                             contentDescription = "Localized description",
@@ -90,7 +97,7 @@ private fun TopAppBar(date: String, day: String) {
                         )
                     }
                 } ,actions = {
-                    IconButton(onClick = { /* do something */ }) {
+                    IconButton(onClick = { getNextDateAndDay(date, day, calendar) }) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowRight,
                             contentDescription = "Localized description",
@@ -155,15 +162,37 @@ fun SubjectItem(subjectName: String) {
 }
 
 @SuppressLint("SimpleDateFormat")
-private fun getCurrentDate(): String {
-    val calendar = Calendar.getInstance()
+private fun getCurrentDate(calendar: Calendar): String {
     val dateFormat = SimpleDateFormat("dd-MM-yyyy") // You can customize the date format here
     return dateFormat.format(calendar.time)
 }
 
 @SuppressLint("SimpleDateFormat")
-private fun getCurrentDay(): String {
-    val calendar = Calendar.getInstance()
+private fun getCurrentDay(calendar: Calendar): String {
     val dayFormat = SimpleDateFormat("EEEE") // Day of the week
     return dayFormat.format(calendar.time)
+}
+
+@SuppressLint("SimpleDateFormat")
+private fun getPreviousDateAndDay(date: MutableState<String>, day: MutableState<String>, calendar: Calendar) {
+    calendar.add(Calendar.DAY_OF_YEAR, -1) // Subtract 1 day
+
+    val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+    date.value = dateFormat.format(calendar.time)
+
+
+    val dayFormat = SimpleDateFormat("EEEE")
+    day.value = dayFormat.format(calendar.time)
+}
+
+@SuppressLint("SimpleDateFormat")
+private fun getNextDateAndDay(date: MutableState<String>, day: MutableState<String>, calendar: Calendar){
+    calendar.add(Calendar.DAY_OF_YEAR, 1) // Add 1 day
+
+    val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+    date.value = dateFormat.format(calendar.time)
+
+    val dayFormat = SimpleDateFormat("EEEE")
+    day.value = dayFormat.format(calendar.time)
+
 }
