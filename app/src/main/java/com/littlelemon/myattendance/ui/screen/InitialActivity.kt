@@ -1,4 +1,4 @@
-package com.littlelemon.myattendance
+package com.littlelemon.myattendance.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

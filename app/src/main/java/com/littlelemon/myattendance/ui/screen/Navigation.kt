@@ -1,4 +1,4 @@
-package com.littlelemon.myattendance
+package com.littlelemon.myattendance.ui.screen
 
 enum class Route() {
     Initial,

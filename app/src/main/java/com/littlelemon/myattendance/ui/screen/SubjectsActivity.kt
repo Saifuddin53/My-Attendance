@@ -1,7 +1,6 @@
-package com.littlelemon.myattendance
+package com.littlelemon.myattendance.ui.screen
 
 import android.annotation.SuppressLint
-import android.net.http.UrlRequest.Status
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,27 +28,47 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+
 
 @Preview(showBackground = true)
 @Composable
-fun Status() {
-    TopAppBar(title = "Status")
+fun SubjectsActivity() {
+    TopAppBar("Subjects")
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
-    ) {
+        ) {
+
         Spacer(modifier = Modifier.height(90.dp))
 
-        SubjectStatus(subjectName = "COA")
+        SubjectList("Coa")
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Button(onClick = { /*TODO*/ },
+            modifier = Modifier.padding(48.dp)) {
+            Row {
+                Icon(imageVector = Icons.Default.Add
+                    , contentDescription = "Add button"
+                    , Modifier.size(30.dp)
+                )
+                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = " Add ",
+                    fontSize = 30.sp
+                )
+            }
         }
+    }
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -58,6 +77,7 @@ fun Status() {
 private fun TopAppBar(title: String) {
 
     Scaffold(
+
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -85,13 +105,13 @@ private fun TopAppBar(title: String) {
 }
 
 @Composable
-fun SubjectStatus(subjectName: String) {
+fun SubjectList(subjectName: String) {
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         ),
         modifier = Modifier
-            .height(120.dp)
+            .height(100.dp)
             .padding(16.dp)
             .fillMaxWidth()
             .fillMaxHeight()
@@ -99,27 +119,14 @@ fun SubjectStatus(subjectName: String) {
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxSize()
         ) {
             Text(
                 text = subjectName,
                 modifier = Modifier
                     .padding(16.dp),
-                textAlign = TextAlign.Start,
-                fontSize = 24.sp
-            )
-            Text(
-                text = "15/20",
-                modifier = Modifier
-                    .padding(16.dp),
-                textAlign = TextAlign.Start,
-                fontSize = 24.sp
-            )
-            Text(
-                text = "76%",
-                modifier = Modifier
-                    .padding(16.dp),
-                textAlign = TextAlign.End,
+                textAlign = TextAlign.Center,
                 fontSize = 24.sp
             )
         }
